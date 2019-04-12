@@ -1,0 +1,109 @@
+#include "human.h"
+#include <iostream>
+#include <string>
+//constructor definition
+human::human(std::string firstName , std::string lastName , int hairColor , int eyeColor , int age ,bool gender , int numberOfChildren){
+     std::cout<<"human main costructor"<<std::endl;
+
+  this->firstName = firstName;
+  this->lastName = lastName;
+  this->hairColor = hairColor;
+  this->eyeColor = eyeColor;
+  this->age = age;
+  this->gender = gender;
+  this->numberOfChildren = numberOfChildren;
+
+  Children=new human*[numberOfChildren];
+   for(int i{};i<numberOfChildren;i++)
+   Children[i] = new human();
+    father = new human();
+   mother = new human();
+   spouse = new human();
+  this->m = 0;
+  
+  
+//std::string human:: getFirstName(){
+}
+human::~human(){
+  m++;
+  std::cout<<"human destructor"<<std::endl;
+  for(int i{};i<numberOfChildren;i++){
+    delete Children[i];
+    std::cout<<"deleted"<<std::endl;
+  }
+  delete [] Children;
+  delete father;
+  delete mother;
+  delete spouse;
+
+}
+
+human::human()=default; 
+human::human(const human& hu){
+  std::cout<<" human copy constructor"<<std::endl;
+  
+  firstName = hu.firstName;
+  lastName = hu.lastName;
+  hairColor = hu.hairColor;
+  eyeColor = hu.eyeColor;
+  age = hu.age;
+  gender = hu.gender;
+  numberOfChildren =hu.numberOfChildren;
+ 
+  //  std::cout<<"copying"<<std::endl;
+  
+  Children=new human*[numberOfChildren];
+  for(int i{};i<numberOfChildren;i++){
+  Children[i] = new human();
+   *Children[i]=*(hu.Children[i]);
+   }
+  // **Children=**(hu.Children);
+  // for(int i{};i<numberOfChildren;i++){
+    //Children[i] = new human();
+  //  *Children[i]=*(hu.Children[i]);
+  
+//  std::cout<<"done ch"<<std::endl;
+
+   father = new human();
+   mother = new human();
+   spouse = new human();
+  *father=*(hu.father);
+  *mother=*(hu.mother);
+  *spouse=*(hu.spouse);
+
+  
+}
+/*
+human::human(const human&& hu){
+  std::cout<<" human move constructor"<<std::endl;
+  
+  firstName = hu.firstName;
+  lastName = hu.lastName;
+  hairColor = hu.hairColor;
+  eyeColor = hu.eyeColor;
+  age = hu.age;
+  gender = hu.gender;
+  numberOfChildren =hu.numberOfChildren;
+ 
+  std::cout<<"copying"<<std::endl;
+  
+  Children=new human*[numberOfChildren];
+  for(int i{};i<numberOfChildren;i++){
+    Children[i] = new human();
+     *Children[i]=*(hu.Children[i]);
+     *(hu.Children[i])=nullptr;     
+  }
+  **(hu.Children)=nullptr;
+
+  father = new human();
+  mother = new human();
+  spouse = new human();
+  *father=*(hu.father);
+  *mother=*(hu.mother);
+  *spouse=*(hu.spouse);
+  *(hu.father)=nullptr;
+  *(hu.mother)=nullptr;
+  *(hu.spouse)=nullptr;
+  
+}*/
+

@@ -1,0 +1,20 @@
+#include <iostream>
+#include "Vector.h"
+//Vector make_vector(int n);
+int main(){
+  Vector m{1,2};
+  m = {1,2,3};
+  std::cout<<m.Length()<<std::endl;
+   return 0;
+}
+
+/*
+Vector make_vector(int n){
+  Vector v1{1,5,9};
+  Vector v2{1,2,4,8,16};
+  if(n==1)
+    return v1;
+  else
+    return v2;
+}
+*/

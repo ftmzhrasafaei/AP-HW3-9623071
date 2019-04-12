@@ -1,0 +1,392 @@
+#include "human.h"
+#include <iostream>
+#include <string>
+#include "Oracle.h"
+#include <ctime>
+//constructor definition
+human::human(std::string firstName , std::string lastName , int hairColor , int eyeColor , int age ,bool gender , int numberOfChildren){
+  // std::cout<<"human main costructor"<<std::endl;
+
+  this->firstName = firstName;
+  this->lastName = lastName;
+  this->hairColor = hairColor;
+  this->eyeColor = eyeColor;
+  this->age = age;
+  this->gender = gender;
+  this->numberOfChildren = numberOfChildren;
+
+  Children=new human*[numberOfChildren];
+  
+  
+}
+human::~human(){
+  // std::cout<<"human destructor"<<std::endl;
+
+   delete [] Children;
+ 
+}
+
+human::human(){
+  // std::cout<<"human defualt costructor"<<std::endl;
+
+  this->firstName ="";
+  this->lastName = "";
+  this->hairColor = 0;
+  this->eyeColor = 0;
+  this->age = 0;
+  this->gender = 0;
+  this->numberOfChildren = 0;
+  Children=new human*[numberOfChildren];
+
+ 
+ 
+}
+
+
+
+human::human(const human& hu){
+  std::cout<<" human copy constructor"<<std::endl;
+ 
+  firstName        = hu.firstName;
+  lastName         = hu.lastName;
+  hairColor        = hu.hairColor;
+  eyeColor         = hu.eyeColor;
+  age              = hu.age;
+  gender           = hu.gender;
+  numberOfChildren = hu.numberOfChildren;
+ 
+   
+  Children = new human*[numberOfChildren];
+   for(int i{};i<numberOfChildren;i++){
+     Children[i] = hu.Children[i];
+   }
+   father = hu.father;
+   mother = hu.mother;
+   spouse = hu.spouse;
+ 
+
+  
+}
+
+
+
+
+human& human::operator=(const human& hu){
+  std::cout<<" operator ="<<std::endl;
+  if(this == &hu){
+    return *this;
+  }
+  
+     delete [] Children;
+    Children=new human*[hu.numberOfChildren];
+
+    // }
+  
+  firstName = hu.firstName;
+  lastName = hu.lastName;
+  hairColor = hu.hairColor;
+  eyeColor = hu.eyeColor;
+  age = hu.age;
+  gender = hu.gender;
+  numberOfChildren =hu.numberOfChildren;
+  
+ 
+  for(int i{} ; i < numberOfChildren ; i++){
+    Children[i] = hu.Children[i];
+  }
+  father = hu.father;
+  mother = hu.mother;
+  spouse = hu.spouse;
+
+  return *this;
+  
+}
+
+
+
+
+
+
+std::string human:: getFirstName(){
+  return (this->firstName);
+}
+
+std::string human::getLastName(){
+  return (this->lastName);
+}
+
+bool human::getGender(){
+  return (this->gender);
+}
+
+int human::getHairColor(){
+  return (this->hairColor);
+}
+
+int human::getEyeColor(){
+  return (this->eyeColor);
+}
+
+int human::getAge(){
+  return (this->age);
+}
+
+
+
+bool human::isChileOf(human* child){
+ for(int i{};i<numberOfChildren;i++){
+   if(child == this->Children[i])
+     return true;
+   }
+ return false;
+}
+
+bool human::isFatherOf(human* mom){
+  if(this->mother == mom)
+    return true;
+  else
+    return false;
+}
+bool human::isMotherOf(human*dad){
+  if(this->father == dad)
+    return true;
+  else
+    return false;
+}
+
+void human::printChildren(){
+  for(int i{} ; i <numberOfChildren-1;i++){
+    for(int j{}; j<numberOfChildren-i-1;j++){
+      if( (*Children[j]).age > (*Children[j+1]).age)
+	std::swap(Children[j],Children[j+1]);
+    }
+  }
+
+  for(int i{};i<numberOfChildren;i++){
+    
+    std::cout<<"firstName: "<<(*Children[i]).firstName<<std::endl; 
+    std::cout<<"lastName: "<<(*Children[i]).lastName<<std::endl;        
+    std::cout<<"hairColor: "<<(*Children[i]).hairColor<<std::endl;
+    std::cout<<"eyeColor: "<<(*Children[i]).eyeColor<<std::endl;
+    std::cout<<"age: "<<(*Children[i]).age<<std::endl;
+    std::cout<<"gender: "<<(*Children[i]).gender<<std::endl;   
+    std::cout<<"numberOfChildren"<<(*Children[i]).numberOfChildren<<std::endl; 
+  
+
+  }
+
+}
+
+
+
+
+void human::operator++(){
+  (this->age)++;
+}
+
+void human::operator++(int){
+  (this->age)++;
+}
+
+
+
+bool human::operator==(human&hu){
+  std::cout<<"operator == "<<std::endl;
+  bool view = firstName == hu.firstName && lastName == hu.lastName && hairColor == hu.hairColor && eyeColor == hu.eyeColor && age == hu.age && gender == hu.gender && numberOfChildren ==hu.numberOfChildren;
+  bool family = (father == hu.father) && (mother == hu.mother) && (spouse == hu.spouse);
+  bool child{};
+  for(int i{};i<numberOfChildren ; i++){
+    if(Children[i] == hu.Children[i])
+      child = true;
+    else{
+      child = false;
+      //std::cout<< i<<std::endl;
+      break;
+    }
+  }
+  bool result{view && family && child};
+
+  
+  return(result);   
+
+}
+
+bool human::operator>(human& hu){
+  return (age > hu.age);
+}
+
+
+
+
+human* human::operator+(human& hu){
+  std::cout<<"operator +"<<std::endl;
+  
+  if((spouse == &hu)&&(this == (hu.spouse))){
+
+
+    
+    std::cout<<"was maried"<<std::endl;
+
+
+    std::string newFirstName{"newborn"};
+    std::string newLastName{""};//
+    int newHairColor{};//
+    int newEyeColor{};//
+    int newAge{};
+    bool newGender{};//
+    int newNumChild{};
+    human v_mom{};
+    human v_dad{};
+    
+    if(this->gender){
+      newLastName = hu.lastName;
+      v_mom = *this;
+      v_dad = hu;
+	      
+    }
+    else{
+      newLastName = this->lastName;
+      v_mom = hu;
+      v_dad = *this;
+    }
+    //  std::cout<<" ha?"<<std::endl;
+
+    int helprand[3]{};
+    srand((int)time(0));
+    for(int i{}; i < 3 ; i++){
+      int r = (rand()%100)+1;
+       helprand[i]=r;
+    }
+    if(helprand[0]%2 == 0)
+      newHairColor = v_dad.hairColor;
+    else
+      newHairColor = v_mom.hairColor;
+    
+    if(helprand[1]%2 == 0)
+      newEyeColor = v_dad.eyeColor;
+    else
+      newEyeColor = v_mom.eyeColor;
+    
+    if(helprand[2]%2 == 0)
+      newGender = v_dad.gender;
+    else
+      newGender = v_mom.gender;
+    human* newborn{new human(newFirstName,newLastName,newHairColor,newEyeColor,newAge,newGender,newNumChild)};
+    human** helpChild{new human*[numberOfChildren]};
+    for(int i{};i<numberOfChildren;i++)
+      {
+
+	helpChild[i] = Children[i];
+
+      }
+   
+    delete[] this->Children;
+    
+    delete[] hu.Children;
+    
+    (this->numberOfChildren)++;
+    (hu.numberOfChildren)++;
+
+   
+    
+    this->Children = new human*[numberOfChildren];
+    hu.Children = new human*[numberOfChildren];
+    for(int i{};i<numberOfChildren-1;i++)
+      {
+	(this->Children[i]) = helpChild[i] ;
+	(hu.Children[i]) = helpChild[i] ;
+
+      }
+    
+    
+    (this->Children[numberOfChildren-1]) = newborn ;
+    (hu.Children[numberOfChildren-1]) = newborn;
+ 
+    
+    delete[] helpChild;
+  
+    return (newborn);
+  }
+  else{
+    std::cout<<"wasnt maried"<<std::endl;
+    return new human();
+  }}
+
+
+
+
+
+
+void human::setwife(human& hu){
+  std::cout<<"wife seted"<<std::endl;
+  // delete hu.spouse;
+  // delete this->spouse;
+  
+   spouse = &hu;
+   (hu.spouse) = this;
+  // *spouse = hu;
+  // *(hu.spouse) = *this;
+}
+
+std::string human::getwife(){
+  return spouse->getFirstName();
+}
+
+human* human::getspouse(human&){
+  return spouse;
+}
+
+void human::setspouse(human& p1){
+  //*(this->spouse) = p1;
+  // *(p1.spouse) = *this;
+  // delete p1.spouse;
+  // delete this->spouse;
+  
+  spouse = &p1;
+  (p1.spouse) = this;
+}
+  
+
+/*
+{
+  if((*(this->spouse) == hu) && (*this== *(hu.spouse)))
+    std::cout<<"maried"<<std::endl;
+
+   
+}
+  void human::setwife(const human& hu){
+      *spouse = hu;
+    
+      }*/
+bool human::canMarry(human* p){
+  if(getGender() == p->getGender()){
+    std::cout<<" same gender ! -__- "<<std::endl;
+    return false;
+  }
+  else if(spouse == 0 && p->spouse==0 )
+    return true;
+  else{
+    std::cout<<"one of them has spouse"<<std::endl;
+    return false;
+  }
+}
+
+
+
+void human::setFirstName(std::string name){
+  this->firstName = name;
+}
+
+
+
+human* human::bigFather(){
+  human * temp{this};
+  while(temp->father != 0){
+    temp = (temp->father);
+    
+    
+      }
+  //  *temp =*( temp->father);
+  
+  return temp;
+}

@@ -1,0 +1,30 @@
+#include "human.h"
+#include "Oracle.h"
+#include <iostream>
+int main(){
+
+  human* p1{new human {"ALI", "BAHADORI", 4, 3, 25, 0, 0}};
+  human* p2{new human {"BAHAR", "SHAMS", 1, 2, 22, 1, 0}};
+  Oracle o1{"SHERVIN"};
+
+  o1.marry(p1, p2);
+  //  std::cout<<"he2"<<std::endl;
+
+  human* p3;
+  //  std::cout<<"he2"<<std::endl;
+
+  p3 = *p1 + *p2;
+  //   std::cout<<"he"<<std::endl;
+  human* p4{new human {"SHAHIN", "REZAEE", 0, 5, 58, 1, 1}};
+  human* p5{new human {"FARHAD", "BAHADORI", 0, 6, 63, 0, 1}};
+
+  // human* p7{p3->bigFather()};
+  o1.setChild(p1, p4, p5);
+   std::cout<<p3->getFirstName()<<std::endl;
+  delete p3;
+  delete p1;
+  delete p2;
+  delete p4;
+  delete p5;
+  return 0;
+}
